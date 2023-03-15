@@ -1,26 +1,22 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { useLoadScript, GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useMemo } from "react";
 
-const Map = () => {
+const Map = ({ location }: any) => {
   const libraries = useMemo(() => ["places"], []);
   const [place, setPlace] = useState<any>();
   const mapCenter = useMemo(
     () => ({ lat: 27.672932021393862, lng: 85.31184012689732 }),
     []
   );
+  console.log(location);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        console.log({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
         setPlace({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          lat: Number(location.lat),
+          lng: Number(location.lng),
         });
       });
     }
@@ -54,7 +50,7 @@ const Map = () => {
         zoom={18}
         center={place}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerStyle={{ width: "800px", height: "800px" }}
+        mapContainerStyle={{ width: "160px", height: "300px" }}
         onLoad={() => console.log("Map Component Loaded...")}
       >
         <MarkerF position={place} onLoad={() => console.log("Marker Loaded")} />
